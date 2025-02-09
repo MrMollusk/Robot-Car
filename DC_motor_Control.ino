@@ -10,7 +10,8 @@ void setup() {
   digitalWrite(in1, LOW);
   digitalWrite(in2, HIGH);
 
-  analogWrite(enable, 255); //Set full speed
+  //Set full speed
+  analogWrite(enable, 255);
 }
 
 void loop() {
