@@ -1,61 +1,39 @@
+const int L_IR = D5;
+const int R_IR = D12;
 
-// CHANGE THESE TO MATCH YOUR WIRING, THEN DELETE THE PREVIOUS "#error" LINE
-const int LEYE = 12;
-const int REYE = A3;
-
-//Low = 0
-//High = 1
-
-int L_temp = 0;
-int R_temp = 0;
+//Used to store previous HIGH/LOW state of pin
+bool LIR_previous;
+bool RIR_previous;
 
 void setup() {
+
   Serial.begin(9600);
+  pinMode(L_IR, INPUT);
+  pinMode(R_IR, INPUT);
 
-  pinMode( LEYE, INPUT );
-  pinMode( REYE, INPUT );
 }
-
-
 
 void loop() {
-  if( digitalRead( LEYE ) == HIGH ){
-    L_temp = 1;
-  }
-  else if( digitalRead( LEYE ) == LOW ){
-    L_temp = 0;
-  }
-  else if( digitalRead( REYE ) == HIGH ){
-    R_temp = 1;
-  }
-  else if( digitalRead( REYE ) == LOW ){
-    R_temp = 0;
+
+  if (digitalRead(L_IR) != LIR_previous){
+    Serial.print("Left eye is: ");
+
+    //Reads the state of the pins (0 or 1)
+    //A 0 means the sensor detects something, A 1 means the sensor detects nothing
+    Serial.print("Left IR sensor is: ");
+    Serial.println(digitalRead(L_IR));
+    Serial.print("Right IR sensor is: ");
+    Serial.println(digitalRead(R_IR));
+
+    //Used to store the past data from the IR pin, ensures that it only prints sensor data when an event occurs
+    LIR_previous = digitalRead(L_IR);
+    RIR_previous = digitalRead(R_IR);
+    
+    // Serial.print("previous is: ");
+    // Serial.println(LIR_previous);
+    // Serial.println(RIR_previous);
   }
 
+  delay(100);
 
-  if( digitalRead( LEYE ) != L_temp ){
-    Serial.println(L_temp);
-    L_temp = 1;
-    delay(1000);
-  }
-  else if( digitalRead( LEYE ) != L_temp){
-    Serial.println(L_temp);
-    L_temp = 0;
-    delay(1000);
-  }
-  else if( digitalRead( REYE ) != R_temp ){
-    Serial.println(R_temp);
-    R_temp = 1;
-    delay(1000);
-  }
-  else if( digitalRead( REYE ) != R_temp ){
-    Serial.println(R_temp);
-    R_temp = 0;
-    delay(1000);
-  }
-  else{
-    Serial.print("");
-  }
 }
-
-
